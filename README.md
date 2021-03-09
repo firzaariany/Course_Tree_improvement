@@ -15,5 +15,5 @@ We will use the dataset B4est_test1_LectureJ13_J14_commented.txt
 I uploaded my thesis presentation with title "Quantitative Genetics"
 
 ## Contact me
-You can check my contact on my GitHub profile. Just go to the link that is shared to you, and click the 
-cat icon on the left upper side of your screen. It will take you to my profile. Thanks!
+You can check my contact on my GitHub profile. Just go to the link that is shared to you, and click my username (firzaariany).
+It will take you to my profile. Thanks!
