@@ -1,0 +1,353 @@
+---
+title: "Introduction to R"
+output: html_notebook
+---
+
+# About R
+
+R is an object-oriented programming language. It is an integrated programming language where you can do data storage, data wrangling (modification), data analysis, statistical modeling, statistical tests, machine learning, and visualization.
+
+You can even build a website, write a report or even a blog, and even build an app in R. Personally I enjoy doing everything in R. It was hard to start in the beginning because it was like learning a completely different language. But the basics were all I need to get started.
+
+It is indeed impossible to master everything in R, but you can start off with the basics and keep learning with new methods and approaches while working with various data sets.
+
+As R is also a multi-platform programming language, you can have access to many libraries that can help your analysis pipeline. The default library in R is **base package**, you don't need to download and install it before using it. Other libraries, **open-source packages**, are available for downloads. You have to download, install, and load them before using.
+
+# Getting started
+
+Download R and RStudio to your local computer.
+
+So, R is essentially translating high-level language to machine codes. High-level language is a full sentence that you speak in everyday lives. In R, you have to simplify this language to pseudo-code (syntax, arguments) so R will understand. R then interprets the pseudo-code to machine code. Only then the machine can understand your request.
+
+R is the console or the machine that interprets the pseudo-code you type to machine code. It then executes the pseudo-code.
+
+RStudio is an Integrated Development Environment (IDE) or simply an interface to make coding easier. It can show you the objects you create in the Environment tab on the upper right panel. You can see the file directory you are on the Files tab in the bottom right panel. There are also sections for packages and help.
+
+## Create a new script
+
+In your RStudio, go to paperwhite button under File section on the task bar. Click it and click "R Script"
+
+![](C:/Users/firza/AppData/Local/RStudio/tmp/paste-005C7B50.png)
+
+It will take you to a new work script. Here you can type codes. When you've finished and you want to save it, go to File --\> Save as...
+
+I recommend you to save the file in all lower letters and without space. You can separate words using underscore sign ( \_ ).
+
+## Change preferences/theme
+
+If you want to change the preferences or the theme of your RStudio, you can go to Tools --\> Global Options --\> Appearance. You can play with the options there, then click Apply.
+
+## Objects in R
+
+You can create an object in R and assign a value in it. It is useful for analysis as you don't have to keep typing the same code over and over again. You can access the values stored in this object every time you're calling the object.
+
+To run a code, press ctrl+enter
+
+```{r objects}
+# We want to do calculation
+10+2
+
+# This gives you the result. But if you want to access it again, you can't because you don't know how to call them
+
+# This is where object is useful. You assign a name to the value and every time you want to access this value, you can just type the name
+
+addition = 10 + 2
+
+# Call the object
+addition
+
+# Integrating it with other calculation
+substraction = addition - 5
+
+substraction
+```
+
+## Data types in R
+
+-   Integer: numbers such as 1, 2, 3, ... except decimals
+
+```{r integer}
+class(1) # class is a function to check the type of an object
+```
+
+-   Numeric: numbers including decimals
+
+```{r numeric}
+class(1.5)
+```
+
+-   Character: a type for words, letters, sentences. You should always put quotation marks in between a sentence, a word, or a letter to tell R that these are character data types. Otherwise, you will run to an error.
+
+```{r strings}
+class("hello, how are you?")
+```
+
+# Final words
+
+## Other options
+
+R is great, but there are other options such as Python. R and Python are similar and they have the biggest community, open source database, and public packages/libraries. I recommend you to learn R or Python because:
+
+-   You can always find free or cheap online courses dedicated to R or Python
+
+-   Most data scientists are either using R or Python. Your teachers or colleagues or IT friends are most likely have experiences in R or Python. You can ask for a help from them whenever you encounter problems.
+
+-   You can find the answers to almost all your confusion just by typing your problems in Google. There are big support communities that use R or Python.
+
+## Personal thoughts
+
+Personally, I would recommend you to learn R or Python. Integrate them in your analysis pipeline. Once you get a good grasp with the basics, learn new methods and challenge yourself to use the new methods in your next analysis. There are always spaces to improve and optimize your code.
+
+I save a lot of time by mastering R. I initially used R only to analyze data. Then I explored other features, such as R markdown which allows me to code and write report at the same time. I could also automate some analysis, such as opening file and do a bit of cleaning (using loop and function). It saves a lot of my time. I can automatically cite paper and put them directly to my References section. R just made my life more efficient.
+
+Another positive thing about learning R or Python is that you create more opportunities for yourself. There are many companies looking for Data Analysts or Data Scientists. The salary is quite higher than average, for example the median gross annual salary for a Junior Data Analyst is 50k Euros/year in Paris and Berlin. In the US, you can even get up to 70k Euros/year. The growth of the position is high, there is a rising demand in many industries (24% in the next few years). You can move forward to senior positions real fast, like 1 - 2 years and you will be in intermediate level, another 2 years to get to senior level.
+
+## Interpreting high level language to machine code
+
+```{r}
+10 + 2
+```
+
+## R is object-oriented
+
+Everything you run in R will be stored in an object
+
+R punya base package
+
+custom package
+
+```{r}
+addition = 10+2
+
+addition 
+
+
+```
+
+The result is saved in the memory. You can access it again at anytime
+
+It is an effective way in data analysis. You can always save the results of your analysis and come back to it again when you need it. If you don't save it into an object, you can't access it again.
+
+## Supports other data types
+
+Integer = number (1,2,3,...)
+
+Numeric = also number, including decimals 1.5, 1.7
+
+Factor = categorical values
+
+Strings = characters "sentences"
+
+Vector = a list of values of the same type
+
+Data frame = table composed of vectors
+
+```{r}
+integer = 1
+
+numeric = 1.5
+
+# strings
+
+name = "firza"
+
+vec_ex = c(34, 20, 65, 76, 44, 54)
+
+vec_ex
+
+# extract values from vector
+vec_ex[1]
+
+vec_ex[5]
+
+# create vector with a sequence of values
+vec_2 = 1:10
+
+vec_2
+
+vec_3 = -5:3
+
+vec_3
+```
+
+## Vector slicing
+
+```{r}
+vec_3[2:5]
+```
+
+## Insert a new value to a vector
+
+```{r}
+length(vec_3)
+
+vec_3[10] = 6
+
+vec_3
+```
+
+## Logical operators
+
+```{r}
+length(vec_2)
+
+vec_2 > 5
+```
+
+## Data frame: Start off with mpg data.
+
+-   Install ggplot
+
+-   Load ggplot
+
+-   Load mpg data
+
+-   Today I am going to the supermarket --\> pseudo code --\> R --\> machine code
+
+```{r}
+cars = mpg
+```
+
+View cars, variables and rows
+
+## Setting working directory
+
+```{r}
+setwd("~/Course_Tree_improvement")
+```
+
+Or from the files tab --\> go to the directory you intend --\> more --\> set as working directory
+
+## Load files
+
+```{r}
+rust_test1 = read.delim2("B4est_test1_LectureJ13_J14_commented.txt", na = "NA")
+
+help("read.csv")
+```
+
+runnig code = ctrl + enter
+
+## Checking the first five rows in the dataset
+
+```{r}
+head(rust_test1, n = 5)
+```
+
+Or you can click the spreadsheet next to the object
+
+## Checking the names of the variables
+
+```{r}
+names(rust_test1)
+```
+
+## Data types
+
+Integer = number (1,2,3,...)
+
+Numeric = also number, including decimals
+
+Factor = categorical values
+
+Strings = characters
+
+Vector = a list of values of the same type
+
+Data frame = table composed of vectors
+
+```{r}
+# Checking the data types of each variable
+str(rust_test1)
+```
+
+Vector
+
+```{r}
+# Selecting a variable
+# It is essentially called a vector
+latent = rust_test1$Laten_24.02.15_gp
+
+# The argument is basically to select a variable
+```
+
+Sometimes it's useful to convert a variable from one data type to another. If we want to convert block from character to factor. Grouping them into 5 levels
+
+```{r}
+rust_test1$Block = as.factor(rust_test1$Block)
+
+str(rust_test1)
+```
+
+## Selecting variables based on their index
+
+```{r}
+names(rust_test1)
+```
+
+```{r}
+genotype = rust_test1[,3]
+```
+
+# Selecting rows based on their index
+
+```{r}
+latent_ind_1 = rust_test1[1,6]
+```
+
+## Rename
+
+```{r}
+names(test1_loop)[1:3] = c("Latent Period", "Uredinia Number", "Uredinia Size")
+```
+
+## Subset
+
+```{r}
+
+test1_09AX27 = test1_selec[which(test1_selec$Strain == "09AX27"),]
+test1_93JE3 = test1_selec[which(test1_selec$Strain == "93JE3"),]
+test1_P72 = test1_selec[which(test1_selec$Strain == "P72"),]
+
+```
+
+## Merge columns
+
+```{r}
+latent = rust_test1$Laten_24.02.15_gp
+
+genotype = rust_test1$Genotype
+
+new_rust = data.frame(cbind(genotype, latent))
+
+
+```
+
+# Join different datasets
+
+```{r}
+df_dummy = data.frame(genotype = rust_test1$Genotype,
+                      dummy_variable = sample(1:100, 1))
+
+to_merge = data.frame(genotype = rust_test1$Genotype,
+                      spore_number = sample(1:1000, 1))
+
+new_join = merge(to_merge, df_dummy, by = "genotype") 
+```
+
+## Simple statistics
+
+Summary Mean, sd, max, min
+
+## Visualization
+
+```{r}
+library(ggplot2)
+str(mpg)
+
+plot(mpg$displ, mpg$hwy)
+
+plot(rust_test1$Laten_24.02.15_gp, rust_test1$NbSS_24.02.15_gp)
+
+hist(rust_test1$Laten_24.02.15_gp)
+```
