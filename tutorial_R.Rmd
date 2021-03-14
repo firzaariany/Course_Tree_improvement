@@ -82,6 +82,253 @@ class(1.5)
 class("hello, how are you?")
 ```
 
+-   Data frame: a data table that contains observations in rows and variables in column. Example: data tables from Excel spreadsheet. I will explain about data frame in the next section.
+
+-   Vector: an object that stores multiple values of the same data type. If you want to make a numeric vector, all the values inside it should be numeric. If you want to make a vector with another data type, you have to make sure that the values you input are of the same data type.
+
+You can create a vector by manually entering the values. The values should be in the same data type. In this case, they values are in numeric data type.
+
+```{r create vector 1}
+create_vector = c(1, 2, 3, 4, 5)
+
+create_vector
+
+class(create_vector)
+```
+
+You can create a vector by passing a range of values.
+
+```{r vector with range}
+vector_2 = 1:10
+
+vector_2
+```
+
+You can also ask R to generate random values to fill your vector. We will be using function sample() after the vector object we create.
+
+-   sample(): the function to generate random numbers
+
+-   argument 1:100 : the argument you give to R to say that you need random numbers within the range 1:100 . You can put any range in this argument
+
+-   argument 15 (after the range): how many random numbers you need from the random number generator. In this case, I ask R to give me 15 random numbers within the range 1:100. You can put any number in this argument, it depends on your need.
+
+-   Replace: TRUE, if you want the random numbers to come multiple times. FALSE, if you need the random numbers to come only once.
+
+```{r random values}
+vector_3 = sample(1:100, 15, replace = TRUE)
+
+vector_3
+```
+
+However, if you use sample() and you run it a couple times, you will get different values for vector_3. This is not reproducible if you want to use vector_3 in your analysis. To solve this, we can call the function set.seed() before creating our vector with random numbers. You can try running these code multiple times and you will still get the same values.
+
+```{r random seed}
+set.seed(0)
+vector_4 = sample(1:100, 20, replace = TRUE)
+
+vector_4
+```
+
+## Accessing the values within vector
+
+Vectors, lists, arrays, and data frames are indexed objects. This means that they store several values and assign to each of them a numerical index that indicates their position within the object. We can access the information stored in each of the positions by using object_name[position].
+
+To access the second element (index = 2) in vector_4, we should code:
+
+```{r index 2}
+# See the inside of vector_4
+vector_4
+
+# Accessing the second element of vector_4
+vector_4[2]
+```
+
+We can also access the elements in vector_4 by giving the range of indexes that we want to access. This is called **vector slicing**. For example, if we want to access the elements from range 2 to 5 in vector_4, we should code:
+
+```{r vector slicing}
+vector_4[c(2:5)]
+```
+
+We can also check the length of vector_4 using function length()
+
+```{r length}
+length(vector_4)
+```
+
+It basically shows you how many elements (or values) are stored in vector_4. Note that you can only access the elements within the length of vector_4. In other words, you can only access the elements from range 1 to 20. If you want to access an element in index 21 from vector_4, it is not possible because it is beyond the length of vector_4.
+
+It applies to any vector you make with various length.
+
+You can also add new values or elements to your vector. For example, if we want to add value 70 to index 21 in vector_4:
+
+```{r add index21}
+# Checking vector_4
+vector_4
+
+# Add a new value to vector_4 and store it to vector_5
+vector_5 = vector_4 # copying everything in vector_4 to vector_5
+
+# Check vector_5
+vector_5
+
+# Add a new value to vector_5
+vector_5[21] = 70
+
+vector_5
+
+# How is it different from vector_4
+vector_4
+```
+
+In this example I created a new vector (vector_5) by copying everything in vector_4. This is to keep the original elements in vector_4 so I can show you how vector addition looks like. I made the changes of vector_4 in vector_5.
+
+I added a new value (70) to vector_5 and when I compared vector_5 and vector_4, there is now 70 in vector_5 that I can't find in vector_4.
+
+## Mathematical operation in vector
+
+You can do mathematical operation for the elements of a vector.
+
+-   Multiplication
+
+    Example: if we want to double every elements in vector_5
+
+```{r double}
+double_elm = vector_5*2
+
+# Before multiplication
+vector_5
+
+# After multiplication
+double_elm
+```
+
+-   Division
+
+    Example: if we want to divide every elements in vector_5 by 5
+
+```{r division}
+division_5 = vector_5/5
+
+# Before division
+vector_5
+
+# After division
+division_5
+```
+
+-   Addition
+
+    Example: if we want to add every elements in vector_5 with 4
+
+```{r addition}
+addition_4 = vector_5 + 4
+
+# Before addition
+vector_5
+
+# After addition
+addition_4
+```
+
+-   Subtraction
+
+    Example: if you want to subtract every elements in vector_5 by 4
+
+```{r subtraction}
+subs_4 = vector_5 - 4
+
+# Before subtraction
+vector_5
+
+# After subtraction
+subs_4
+```
+
+Check this YouTube video for more arithmetic operations in vector:
+
+[Create and Work with Vectors and Matrices in R \| R Tutorial 1.4 \| MarinStatslectures - YouTube](https://www.youtube.com/watch?v=2TcPAZOyV0U)
+
+## Setting your working directory
+
+Important: before you import any data frame to R, you should set your working directory i.e. the folder where your data is saved. Not only that this is the folder where you save the data you need for analysis, but also this is the folder where your analysis results will be stored.
+
+The path to the directory is specified in text format, so you type **"in quotation marks"**.
+
+The way to do it is:
+
+```{r setwd}
+setwd(dir = "C:/Users/firza/Documents/Course_Tree_improvement")
+```
+
+In dir =, you pass the folder where your file resides in your laptop.
+
+## Checking the directory you are currently resided
+
+Double check if you are in the right working directory. Just pass this function and R will return the location of the folder you are resided right now.
+
+```{r getwd}
+getwd()
+```
+
+# Importing a data frame
+
+To import a data frame, you should use read.table() function in R. R support any kinds of data set, from flat files to raster files. This time you should be familiar on how to import a data frame from flat file formats, such as .csv or .txt. The read.table() function supports .csv and .txt files.
+
+Arguments within the read.table function that you usually need to give to R:
+
+-   It is advisable to save the data as an object.
+
+```{=html}
+<!-- -->
+```
+-   file = the name of the file you want (it should reside in the folder that you set as your working directory). The file name is in text format, so you should type it in with quotation marks ( " " ).
+
+-   header = TRUE if the first row of your data is the name of your variables
+
+-   sep = separation between columns. If you're using .txt file like I do here, the separation between columns is made by a tab or "\\t". If you're using .csv file, the separation is made by a comma or " , ".
+
+-   dec = the sign for decimal used in your file. Sometimes, different language uses different signs to make a decimal. In English keyboard, decimals are marked by a point or " . ", while in French keyboard, decimals are marked by a comma or " , " such as what we see in our data frame.
+
+Fun YouTubers to follow if you want to learn R programming:
+
+[Import Data, Copy Data from Excel to R CSV & TXT Files \| R Tutorial 1.5 \| MarinStatsLectures - YouTube](https://www.youtube.com/watch?v=qPk0YEKhqB8)
+
+[R Programming for Beginners \| Complete Tutorial \| R & RStudio - YouTube](https://www.youtube.com/watch?v=BvKETZ6kr9Q)
+
+```{r data frame}
+# Import a sample data frame
+rust_data = read.table(file = "B4est_test1_LectureJ13_J14_commented.txt",
+                       header = TRUE,
+                       sep = "\t",
+                       dec = ",",
+                       quote = "\"")
+
+# See the documentation of read.table
+help("read.table")
+
+class(rust_data)
+```
+
+You can also use:
+
+-   read.csv (for csv file with a header and decimal is marked with a point or " . ")
+
+-   read.csv2 (for csv file with a header and decimal is marked with a comma or " , ")
+
+-   read.delim (for txt file with a header and decimal is marked with a point or " . ")
+
+-   read.delim2 (for txt file with a header and decimal is marked with a comma or " , ")
+
+Data frame is essentially a collection of vectors. When you access a certain variable in your data frame (with the help of "\$" sign as given in the example below), you are essentially accessing a vector.
+
+```{r vector}
+vector_genotype = rust_data$Genotype
+
+class(vector_genotype)
+```
+
+When you check the class of vector_genotype, it returns 'character' because all the values are in character data type.
+
 # Final words
 
 ## Other options
@@ -102,79 +349,7 @@ I save a lot of time by mastering R. I initially used R only to analyze data. Th
 
 Another positive thing about learning R or Python is that you create more opportunities for yourself. There are many companies looking for Data Analysts or Data Scientists. The salary is quite higher than average, for example the median gross annual salary for a Junior Data Analyst is 50k Euros/year in Paris and Berlin. In the US, you can even get up to 70k Euros/year. The growth of the position is high, there is a rising demand in many industries (24% in the next few years). You can move forward to senior positions real fast, like 1 - 2 years and you will be in intermediate level, another 2 years to get to senior level.
 
-## Interpreting high level language to machine code
-
-```{r}
-10 + 2
-```
-
-## R is object-oriented
-
-Everything you run in R will be stored in an object
-
-R punya base package
-
-custom package
-
-```{r}
-addition = 10+2
-
-addition 
-
-
-```
-
-The result is saved in the memory. You can access it again at anytime
-
-It is an effective way in data analysis. You can always save the results of your analysis and come back to it again when you need it. If you don't save it into an object, you can't access it again.
-
-## Supports other data types
-
-Integer = number (1,2,3,...)
-
-Numeric = also number, including decimals 1.5, 1.7
-
-Factor = categorical values
-
-Strings = characters "sentences"
-
-Vector = a list of values of the same type
-
-Data frame = table composed of vectors
-
-```{r}
-integer = 1
-
-numeric = 1.5
-
-# strings
-
-name = "firza"
-
-vec_ex = c(34, 20, 65, 76, 44, 54)
-
-vec_ex
-
-# extract values from vector
-vec_ex[1]
-
-vec_ex[5]
-
-# create vector with a sequence of values
-vec_2 = 1:10
-
-vec_2
-
-vec_3 = -5:3
-
-vec_3
-```
-
 ## Vector slicing
-
-```{r}
-vec_3[2:5]
-```
 
 ## Insert a new value to a vector
 
