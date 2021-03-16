@@ -418,7 +418,7 @@ vector_lat = rust_data$Laten_24.02.15_gp
 head(vector_lat)
 ```
 
-## Column and row slicing
+## Column slicing
 
 Sometimes, it is also useful to use indexes to select columns or rows. For example, we can select the variables latent period (Laten_24.02.15_gp), spore number on the leaves (NbSS_24.02.15_gp), spore number under the water (NbSO_24.02.15_gp), black points (NbPtN_24.02.15_gp) and spore size (Taill_05.08.20_gp) in two ways:
 
