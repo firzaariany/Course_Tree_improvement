@@ -248,11 +248,13 @@ Check this YouTube video for more arithmetic operations in vector:
 
 [Create and Work with Vectors and Matrices in R \| R Tutorial 1.4 \| MarinStatslectures - YouTube](https://www.youtube.com/watch?v=2TcPAZOyV0U)
 
+# Working with a data frame
+
 ## Setting your working directory
 
-Important: before you import any data frame to R, you should set your working directory i.e. the folder where your data is saved. Not only that this is the folder where you save the data you need for analysis, but also this is the folder where your analysis results will be stored.
+Important: before you do any analysis in R, you should set your working directory i.e. the folder where your data is saved. Not only that this is the folder where you save the data you need for analysis, but also this is the folder where your analysis results will be stored.
 
-The path to the directory is specified in text format, so you type **"in quotation marks"**.
+The path to the directory is specified in text format, so you type it **"in quotation marks"**.
 
 The way to do it is:
 
@@ -270,7 +272,7 @@ Double check if you are in the right working directory. Just pass this function 
 getwd()
 ```
 
-# Importing a data frame
+## Importing a data frame
 
 To import a data frame, you should use read.table() function in R. R support any kinds of data set, from flat files to raster files. This time you should be familiar on how to import a data frame from flat file formats, such as .csv or .txt. The read.table() function supports .csv and .txt files.
 
@@ -319,15 +321,169 @@ You can also use:
 
 -   read.delim2 (for txt file with a header and decimal is marked with a comma or " , ")
 
-Data frame is essentially a collection of vectors. When you access a certain variable in your data frame (with the help of "\$" sign as given in the example below), you are essentially accessing a vector.
+Data frame is essentially an array made of x rows and y columns. In a data frame, you will have observations in rows and variables in columns. You can access a certain column (i.e. variable) with the help of "\$" sign as given in the example below.
 
-```{r vector}
+```{r dollar sign}
+# accessing the genotype column
 vector_genotype = rust_data$Genotype
 
 class(vector_genotype)
 ```
 
 When you check the class of vector_genotype, it returns 'character' because all the values are in character data type.
+
+You can see the whole data by clicking the spreadsheet icon at the right side of your data frame object. You can find this in the "Environment" tab on the upper right panel.
+
+![](C:/Users/firza/AppData/Local/RStudio/tmp/paste-C5AB985A.png)
+
+## Head function
+
+You can also check the first few rows of the data by using head() function. By default, it will show the first 6 rows of the data.
+
+```{r head}
+head(rust_data)
+```
+
+But, you can also specify how many rows you want R to return by passing the number in the n argument of the head() function
+
+```{r n argument}
+head(rust_data, n = 10)
+```
+
+## Tail function
+
+You can also check the last few rows of your data using tail() function. You can specify the number of rows you want R to return in the n argument of the tail() function.
+
+```{r tail n}
+tail(rust_data, n = 10)
+```
+
+## To check the dimension of the data
+
+You can check how many observations and variables are contained in the data frame using dim() function.
+
+```{r dim}
+dim(rust_data)
+```
+
+dim will return the number of rows (or observation) in the left side of the result and the number of variables (or columns) in the right side. The data frame we are using contains 2520 observations and 15 variables.
+
+## To check the names of the variables
+
+It is sometimes important to know the names of the variables. You can use the information to select, rename, or remove variables. To check the names of the variables, you can use colnames() function followed by the name of the data frame.
+
+```{r colnames}
+colnames(rust_data)
+```
+
+It returns a list of variable names. The list contains indexed names, meaning that each variable has its own position in the list. This indexes corresponds to the position of the variable in the data frame. For example, if you want to access variable "Laten_24.02.15_gp" by its index, you can do the following
+
+```{r access vars}
+vector_latent = rust_data[ , 6]
+
+head(vector_latent)
+```
+
+Note that I leave a space in the beginning of the square brackets. This is because when you are accessing the index of an array (remember that a data frame is an array), you pass the index for the row in the left side of the bracket and the index of the column in the right side. So when you pass the following code, you are accessing the data in row 4 and in column 6.
+
+```{r index array}
+row_4_data = rust_data[4, 6]
+
+row_4_data
+```
+
+Because you are accessing for the data in a specific position, you will get a single value. If you look back to the data frame, this value is essentially the latent period (Laten_24.02.15_gp) for genotype 6-A18 in block 1.
+
+You can also access a certain row using the following code:
+
+```{r access row}
+row_4_vars = rust_data[4, ]
+
+row_4_vars
+```
+
+The code returns all the information that entails the genotype 6-A18 in block 1. This is more intuitive than just getting the single value like before. If you only want to know the latent period for genotype 6-A18, you can do the following instead:
+
+```{r only latent}
+rust_data$Laten_24.02.15_gp[4]
+```
+
+How I did it is I first select the variable using the dollar sign "\$" and get only the row number 4
+
+It is always best to access variables using their name with the help of the "\$" sign. Also, if you are accessing a big file, always keep them in an object to allow easy access.
+
+```{r vars dollar}
+vector_lat = rust_data$Laten_24.02.15_gp
+
+head(vector_lat)
+```
+
+## Column and row slicing
+
+Sometimes, it is also useful to use indexes to select columns or rows. For example, we can select the variables latent period (Laten_24.02.15_gp), spore number on the leaves (NbSS_24.02.15_gp), spore number under the water (NbSO_24.02.15_gp), black points (NbPtN_24.02.15_gp) and spore size (Taill_05.08.20_gp) in two ways:
+
+-   Selecting based on the index. The indexes for the variables are from index 6 to 11. So we can do the following (it's called column slicing)
+
+```{r col slicing}
+col_slice_data = rust_data[, c(6:11)]
+
+head(col_slice_data)
+```
+
+-   Selecting using column names using subset function. You can pass on the names of the columns into the argument select in the function.
+
+```{r col subset}
+col_subset_data = subset(rust_data, select = c("Laten_24.02.15_gp",
+                                               "NbSS_24.02.15_gp",
+                                               "NbSO_24.02.15_gp", 
+                                               "NbPtN_24.02.15_gp"))
+
+head(col_subset_data)
+```
+
+Maybe you want to know the names of the genotypes. You can add the genotype names into the subset function.
+
+```{r with genot}
+col_subset = subset(rust_data, select = c("Genotype",
+                                          "Laten_24.02.15_gp",
+                                          "NbSS_24.02.15_gp",
+                                          "NbSO_24.02.15_gp",
+                                          "NbPtN_24.02.15_gp"))
+
+col_subset
+```
+
+## Checking data types
+
+Remember that we're talking about data types such as string, numeric and integer in the above sections. We can check the data types of each variable from a data frame. It is important to check if the variables are in the correct types to avoid misleading analysis and errors.
+
+For example, we do not want that a variable with numerical data type is being recorded as character type by R. When we do mathematical analysis with this variable, R will return an error because essentially you can't do mathematical analysis in character type.
+
+One way to do it is by using class() function followed by the variable (remember to use the dollar sign to access a variable within a data frame) like I've showed you before.
+
+```{r class}
+class(rust_data$Genotype)
+
+class(rust_data$Laten_24.02.15_gp)
+```
+
+Another way is by using str() function followed by the name of the data frame. This function will return the data types of all the variables contained in a data frame. Using this function, you can evaluate the data types of the variables at once. It saves you time as you don't have to check the variables one by one.
+
+```{r str fun}
+str(rust_data)
+```
+
+The str() function tells you:
+
+-   The dimension of the data frame (obs and variables at the first line) --\> same results as when you're using dim()
+
+-   The names of the variables --\> same results as when you're using colnames()
+
+-   The types of the variables --\> same results as when you're using class() to each variable one by one
+
+-   The data of the first few lines of the data frame --\> same results as when you're using head()
+
+So, using str(), you can check all the stuff we learned at once. It is more efficient than calling the function (i.e. dim, colnames, etc.) one by one.
 
 # Final words
 
