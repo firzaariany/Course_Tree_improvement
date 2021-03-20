@@ -518,7 +518,131 @@ The str() function tells you:
 
 So, using str(), you can check all the stuff we learned at once. It is more efficient than calling the function (i.e. dim, colnames, etc.) one by one.
 
-# Final words
+## Changing column names (renaming column)
+
+Sometimes we also need to change the column names. Reasons like: inconsistency or names are too long is one of many reasons that lead us changing the column names. The reason mainly depends on your needs. If the long names makes it difficult to write your code, you can change it. You can change the column names using the following code:
+
+```{r change var name}
+# Checking the current column names
+names(rust_data)
+
+# If we want to change the names of Laten_24.02.15_gp
+names(rust_data)[names(rust_data) == "Laten_24.02.15_gp"] = "Latent_period"
+
+# Now you can see that the colname Laten_24.02.15_gp has been changed into latent_period
+head(rust_data)
+```
+
+You can also change a group of columns at once
+
+```{r group colname}
+# Checking the current colnames
+names(rust_data)
+
+# Renaming the columns "NbSS_24.02.15_gp" until "Com_24.02.15_gp"
+# First you make a list of the new names
+# The order in the list should be the same as the order in names(rust_data)
+new_names = c("Spore_number_1", "Spore_number_2", "Black_points",
+              "Spore_size", "Comment")
+
+# Selecting the columns you want to rename using their index
+# Assigning the new_names list into that selection
+names(rust_data)[7:12] = new_names
+
+# Checking the data again. The colnames must've changed by now
+head(rust_data)
+```
+
+What I'm doing here is I first checked the column names. Then I decided to change the names of the column NbSS_24.02.15_gp until Com_24.02.15_gp.
+
+If you view the rust_data, you will see that there are other 3 columns in between NbSS and Com. I want to change their name too.
+
+You can do repetitive task and change the column names one by one. But it's time consuming and not effective. Instead, you already know how many columns you want the names to be changed (i.e. 5 columns) and you know the orders.
+
+You can make a list consisting of 5 new names for our 5 columns. The order of the new names should be the same as the order of our current column names. If we want to name from NbSS to Com, you should type the new names exactly in that order.
+
+Next, I am telling R to select only column 7 to 12. If you view rust_data data frame, you can hover your mouse around the column you want. An information box will show and will tell you the order of your column (column no. X). For example, for NbSS the column number is 7 and Com is 12.
+
+Then these column names are equal to the names that I just typed in the new_names object.
+
+When you run this code, R will essentially assign the new names to the old ones. You can verify the change but calling the head function.
+
+## Sorting data
+
+You also need to know how to sort your data. For example, I want to sort the data based on the genotypes name.
+
+```{r sort genot}
+# Checking the column names
+names(test1_09AX27)
+
+# Sorting based on genotypes names
+sort_genot = test1_09AX27[order(test1_09AX27$Genotype),]
+
+# See the difference
+# Before sorting
+head(test1_09AX27)
+
+# After sorting
+head(sort_genot)
+```
+
+Next, I also want to know the biggest latent period from the subset data test1_09AX27 (i.e. genotypes infected by pathogen 09AX27).
+
+```{r sort LP}
+# Sorting based on latent period
+sort_latent = test1_09AX27[order(-test1_09AX27$Laten_24.02.15_gp),]
+
+# Check the results
+head(sort_latent)
+```
+
+Note that to find the biggest latent period I put minus (-) in front of test1_09AX27\$Laten_24.02.15_gp. This is to tell the order function to sort in descending order (large to small). If you don't put the minus sign, the order function will just sort the column in ascending order (small to large).
+
+# Descriptive statistics
+
+We can also find the average, maximum and minimum number, median, mode and standard deviation for each column. Together, these measures are called descriptive statistics. How these are applicable in real-life situations is described in this video:
+
+[Quantitative Research \| Descriptive Statistics - YouTube](https://www.youtube.com/watch?v=oKzMTWu1Oow)
+
+-   Average
+
+For example, I want to find the average of latent period in test1_09AX27 data frame. I only need to pass the following code:
+
+```{r avg}
+mean(test1_09AX27$Laten_24.02.15_gp)
+```
+
+-   Median
+
+The median of latent period in test1_09AX27 data frame.
+
+```{r median}
+median(test1_09AX27$Laten_24.02.15_gp)
+```
+
+-   Standard deviation
+
+```{r std}
+sd(test1_09AX27$Laten_24.02.15_gp)
+```
+
+-   Max and min number
+
+```{r max min}
+max(test1_09AX27$Laten_24.02.15_gp)
+
+min(test1_09AX27$Laten_24.02.15_gp)
+```
+
+However, if you want to know the statistics for all of the variables, doing this is not effective. There is a function that returns the statistics of all the variables at once. It's called summary()
+
+```{r summary}
+summary(test1_09AX27)
+```
+
+This function gives you the statistics for all the variables. It returns the data type, min, first quartile (Q1), median (Q2), mean, third quartile (Q3), max, and the total observations with NA (missing values). This is very handy to get and to remind you the characteristics of your data.
+
+# Visualization
 
 ## Other options
 
@@ -537,48 +661,3 @@ Personally, I would recommend you to learn R or Python. Integrate them in your a
 I save a lot of time by mastering R. I initially used R only to analyze data. Then I explored other features, such as R markdown which allows me to code and write report at the same time. I could also automate some analysis, such as opening file and do a bit of cleaning (using loop and function). It saves a lot of my time. I can automatically cite paper and put them directly to my References section. R just made my life more efficient.
 
 Another positive thing about learning R or Python is that you create more opportunities for yourself. There are many companies looking for Data Analysts or Data Scientists. The salary is quite higher than average, for example the median gross annual salary for a Junior Data Analyst is 50k Euros/year in Paris and Berlin. In the US, you can even get up to 70k Euros/year. The growth of the position is high, there is a rising demand in many industries (24% in the next few years). You can move forward to senior positions real fast, like 1 - 2 years and you will be in intermediate level, another 2 years to get to senior level.
-
-## Data frame: Start off with mpg data.
-
--   Install ggplot
-
--   Load ggplot
-
--   Load mpg data
-
--   Today I am going to the supermarket --\> pseudo code --\> R --\> machine code
-
-```{r}
-cars = mpg
-```
-
-View cars, variables and rows
-
-# Join different datasets
-
-```{r}
-df_dummy = data.frame(genotype = rust_test1$Genotype,
-                      dummy_variable = sample(1:100, 1))
-
-to_merge = data.frame(genotype = rust_test1$Genotype,
-                      spore_number = sample(1:1000, 1))
-
-new_join = merge(to_merge, df_dummy, by = "genotype") 
-```
-
-## Simple statistics
-
-Summary Mean, sd, max, min
-
-## Visualization
-
-```{r}
-library(ggplot2)
-str(mpg)
-
-plot(mpg$displ, mpg$hwy)
-
-plot(rust_test1$Laten_24.02.15_gp, rust_test1$NbSS_24.02.15_gp)
-
-hist(rust_test1$Laten_24.02.15_gp)
-```
