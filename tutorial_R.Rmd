@@ -642,7 +642,155 @@ summary(test1_09AX27)
 
 This function gives you the statistics for all the variables. It returns the data type, min, first quartile (Q1), median (Q2), mean, third quartile (Q3), max, and the total observations with NA (missing values). This is very handy to get and to remind you the characteristics of your data.
 
+# Example of installing a package
+
+R consists of a built-in package and participatory/custom packages.
+
+The built-in package is called *base* package, it comes together with R installation. It does not need any configuration prior to utilization, such as installation or initial calling. The operations above are the good example of using R base package.
+
+The participatory/custom packages are packages built and uploaded by experts/ communities/ developers/ analysts/ data scientists/ general public to serve certain purposes. These packages need initial configuration prior to utilization, such as installation and initial calling.
+
+As an example of installing a package, I will use ggplot2 package. It's a popular visualization package beyond the R base visualization package. I personally more comfortable using ggplot2, but I won't make its tutorial here because the syntax is more complex than the base package.
+
+## Installation
+
+To install ggplot2 package, you can go to "Packages" tab in the bottom right panel. Then click "Install" and a pop-up box will show up.
+
+In the pop-up box make sure that the section "install from" is set to "Repository (CRAN)", this is the central R library that hosts all the packages.
+
+Then in the section "Packages", type the package you want to install (make sure that the spelling is exactly the same, even the capital and lower words, ggplot2 is not the same as Ggplot2). In this case, type "ggplot2". R will automatically show the option for it. Section "Install to library" gives you the location of the package in your computer once it's downloaded. Check the box "Install dependencies" then click install. Then wait for a moment while the download is running.
+
+The progress will be shown in the console page in the bottom left panel. There will be red sign on the top of that panel that indicates R is running the download. When the red sign is gone and the message "the downloaded file is in ...." (or similar), it means that the download is finished.
+
+When it's finished, you have to call the package before using it. It needs library() followed by the name of the package.
+
+```{r call package}
+library(ggplot2)
+```
+
+Then you're ready to use the package.
+
+I would recommend you to be comfortable with the basic with R base package before trying other packages. Most of the time, base package is enough for your analysis and you need one to five additional packages for extensive analysis pipeline. More if you need other packages to optimize your analysis pipeline. I personally use 1 - 7 packages for the whole pipeline (preparation to modeling).
+
+There are many packages you can learn but you don't need to learn them all. Usually a simple Google search, a help from fellow researchers/IT friends, or help from relevant research papers will guide you to a package that is suitable for your use.
+
 # Visualization
+
+Data visualization is an important part of data analysis or data science pipeline. It communicates the insights or the results from our data. It guides people to come up with a decision, i.e. to improve management, to increase performance, to add values to the products, etc. You can check the importance of data visualization here
+
+[What is Data Visualization in 3 minutes ? - YouTube](https://www.youtube.com/watch?v=VyhLRJVoIrI)
+
+In this section I will use another data frame called mtcars. The data is provided by ggplot2 package.
+
+```{r load mpg}
+cars_data = mtcars
+```
+
+The description of mtcars data is provided in the help page
+
+```{r desc}
+help(mtcars)
+```
+
+-   Scatter plots
+
+To see relationship between two variables i.e. correlation, linear regression
+
+Important arguments you have to give:
+
+x = the variable to be plotted in the x-axis
+
+y = the variable to be plotted in the y-axis (remember, to access the variable you should put the dollar sign in between the data frame and variable name)
+
+main = the title of the plot, in character, should be put in between quotation marks
+
+xlab and ylab = title for x-axis and y-axis, respectively
+
+pch = the model of the point (to see the list of pch choices: [R plot pch symbols : The different point shapes available in R - Easy Guides - Wiki - STHDA](http://www.sthda.com/english/wiki/r-plot-pch-symbols-the-different-point-shapes-available-in-r))
+
+```{r scatter}
+plot(x = cars_data$wt, y= cars_data$mpg, 
+     main = "Relationship between miles per gallon (mpg) and car weight (wt)",
+     xlab = "Car Weight (1000 lbs)", ylab = "Miles per Gallon",
+     pch = 19)
+```
+
+You can also differentiate the colors based on number of cylinders (cyl), for example.
+
+```{r scatter col}
+plot(x = cars_data$wt, y= cars_data$mpg, 
+     main = "Relationship between miles per gallon (mpg) and car weight (wt)",
+     xlab = "Car Weight (1000 lbs)", ylab = "Miles per Gallon",
+     pch = 19,
+     col = cars_data$cyl)
+```
+
+Advanced scatter plots: [Quick-R: Scatterplots (statmethods.net)](https://www.statmethods.net/graphs/scatterplot.html)
+
+-   Barplot
+
+Barplot is used to understand the frequency of a data. For example, we can check how many cars that have 3, 4, or 5 gears. The information is stored in gear variable (cars_data\$gear).
+
+First, let's check the structure of each variable
+
+```{r mtcars str}
+str(cars_data)
+```
+
+Let's plot the distribution of cars_data\$gear
+
+```{r gear dist}
+plot(x = cars_data$gear)
+```
+
+From the graph , it can be seen that the distribution is kind of weird. But there is a pattern here, there are cars fall only in 3-gears category, others fall only in 4-gears or 5-gears category. It seems that the gears variable is categorical and is a group. This kind of data should be stored as "factor" data type.
+
+If we go back to the result from str(), gear variable is in numeric type. This is not the right data type. We should convert it to factor.
+
+```{r convert}
+cars_data$gear = as.factor(cars_data$gear)
+
+str(cars_data)
+
+# Checking the total number of gear categories
+levels(cars_data$gear)
+```
+
+There are three categories for gear variable: 3-gears, 4-gears, or 5-gears. Now we can plot how many cars belong to each gear categories. We can use plot() to automatically design a plot for us.
+
+```{r gear freq}
+plot(x = cars_data$gear,
+     main = "Number of cars with 3, 4, or 5 gears",
+     xlab = "Number of gears", ylab = "Number of cars")
+```
+
+The graph is called barplot. You can also plot a barplot using `barplot()` function.
+
+For this purpose, we need to plot the frequency of the `mtcars$gear` rather than the whole column. We use the `table()` function for this purpose.
+
+```{r barplot gear}
+barplot(height = table(cars_data$gear),
+        main = "Number of cars with 3, 4, or 5 gears",
+        xlab = "Number of gears", ylab = "Number of cars")
+```
+
+More information: [Creating Bar Plots in R - JournalDev](https://www.journaldev.com/36249/bar-plots-in-r)
+
+-   Histogram
+
+Histogram is used to understand data distribution and data frequency. For example, we want to check the distribution of horsepower that the cars have. This information is stored in `cars_data$hp.`
+
+```{r hist}
+hist(x = cars_data$hp,
+     main = "Numbers of cars with their respective horsepower",
+     xlab = "Horsepower", ylab = "Frequency")
+```
+
+For more information on what charts to use:
+
+[Which is the best chart: Selecting among 14 types of charts Part I - YouTube](https://www.youtube.com/watch?v=C07k0euBpr8)
+
+# Final words
 
 ## Other options
 
